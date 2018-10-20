@@ -86,7 +86,7 @@ CGFloat workingRadiusForFaceOfSizeWithAngle(CGSize faceSize, CGFloat angle)
 
 		self.theme = [[NSUserDefaults standardUserDefaults] integerForKey:@"Theme"];
 		self.useBackgroundImageOverlay = NO;
-		self.faceStyle = FaceStyleRound;
+        self.faceStyle = FaceStyleRound;  // default: FaceStyleRound
 		self.numeralStyle = NumeralStyleAll;
 		self.tickmarkStyle = TickmarkStyleAll;
 		self.majorTickmarkShape = TickmarkShapeRectangular;
@@ -100,7 +100,7 @@ CGFloat workingRadiusForFaceOfSizeWithAngle(CGSize faceSize, CGFloat angle)
 		self.dateStyle = DateStyleDayDate;
 		self.dateQuadrant = DateQuadrantRight;
 
-		self.monogram = @""; // e.g. 
+		self.monogram = @"NL"; // e.g. 
 		
 		[self refreshTheme];
 		
@@ -1120,10 +1120,17 @@ CGFloat workingRadiusForFaceOfSizeWithAngle(CGSize faceSize, CGFloat angle)
 	}
 	else if (self.colorRegionStyle == ColorRegionStyleDynamicDuo)
 	{
+        // Color Region Rotation Code
+        
 		colorRegion.alpha = 1.0;
+        
+        // Minute hand color:
+        // colorRegion.zRotation =  M_PI_2 -(2*M_PI)/60.0 * (CGFloat)(components.minute + 1.0/60.0*components.second);
+        // colorRegionReflection.zRotation =  M_PI_2 - (2*M_PI)/60.0 * (CGFloat)(components.minute + 1.0/60.0*components.second);
 		
-		colorRegion.zRotation =  M_PI_2 -(2*M_PI)/60.0 * (CGFloat)(components.minute + 1.0/60.0*components.second);
-		colorRegionReflection.zRotation =  M_PI_2 - (2*M_PI)/60.0 * (CGFloat)(components.minute + 1.0/60.0*components.second);
+        // Second hand color:
+		colorRegion.zRotation =  M_PI_2 -(2*M_PI)/60.0 * (CGFloat)(components.second);
+		colorRegionReflection.zRotation =  M_PI_2 - (2*M_PI)/60.0 * (CGFloat)(components.second);
 	}
 	else if (self.colorRegionStyle == ColorRegionStyleHalf)
 	{
